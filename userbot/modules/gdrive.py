@@ -31,7 +31,7 @@ import logging
 import userbot.modules.sql_helper.google_drive_sql as helper
 
 from bs4 import BeautifulSoup
-from os.path import isfile, isdir, join
+from os.path import isfile, isdir, join, getctime
 from mimetypes import guess_type
 
 from telethon import events
@@ -221,6 +221,7 @@ async def download(gdrive, service, uri=None):
     """ - Download files to local then upload - """
     if not isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
+        required_file_name = None
     if uri:
         full_path = os.getcwd() + TEMP_DOWNLOAD_DIRECTORY.strip('.')
         if isfile(uri) and uri.endswith(".torrent"):
@@ -243,48 +244,49 @@ async def download(gdrive, service, uri=None):
             new_gid = await check_metadata(gid)
             await check_progress_for_dl(gdrive, new_gid, previous=None)
         try:
-            file_path = TEMP_DOWNLOAD_DIRECTORY + filenames
+            required_file_name = TEMP_DOWNLOAD_DIRECTORY + filenames
         except Exception:
-            file_path = TEMP_DOWNLOAD_DIRECTORY + filename
+            required_file_name = TEMP_DOWNLOAD_DIRECTORY + filename
     else:
         try:
             current_time = time.time()
             is_cancelled = False
-            file = await gdrive.get_reply_message()
-            file_name = file.file.name
-            file_path = TEMP_DOWNLOAD_DIRECTORY + file_name
-            if isfile(file_path):
-                os.remove(file_path)
-            await gdrive.client.download_media(
-                file,
-                file_path,
+            downloaded_file_name = await gdrive.client.download_media(
+                await gdrive.get_reply_message(),
+                TEMP_DOWNLOAD_DIRECTORY,
                 progress_callback=lambda d, t: asyncio.get_event_loop(
                 ).create_task(progress(d, t, gdrive, current_time,
                                        "[FILE - DOWNLOAD]",
-                                       file_name=file_name,
                                        is_cancelled=is_cancelled)))
         except CancelProcess:
-            os.remove(file_path)
+            names = []
+            for name in os.listdir(TEMP_DOWNLOAD_DIRECTORY):
+                names.append(join(TEMP_DOWNLOAD_DIRECTORY, name))
+            """ asumming newest files are the cancelled one """
+            newest = max(names, key=getctime)
+            os.remove(newest)
             reply += (
                 "`[FILE - CANCELLED]`\n\n"
                 "`Status` : **OK** - received signal cancelled."
             )
             return reply
+        else:
+            required_file_name = downloaded_file_name
     try:
-        file_name = await get_raw_name(file_path)
+        file_name = await get_raw_name(required_file_name)
     except AttributeError:
         reply += (
             "`[ENTRY - ERROR]`\n\n"
             "`Status` : **BAD**\n"
         )
         return reply
-    mimeType = await get_mimeType(file_path)
+    mimeType = await get_mimeType(required_file_name)
     try:
         status = "[FILE - UPLOAD]"
-        if isfile(file_path):
+        if isfile(required_file_name):
             try:
                 result = await upload(
-                    gdrive, service, file_path, file_name, mimeType)
+                    gdrive, service, required_file_name, file_name, mimeType)
             except CancelProcess:
                 reply += (
                     "`[FILE - CANCELLED]`\n\n"
@@ -310,7 +312,7 @@ async def download(gdrive, service, uri=None):
                 + parent_Id
             )
             try:
-                await task_directory(gdrive, service, file_path)
+                await task_directory(gdrive, service, required_file_name)
             except CancelProcess:
                 reply += (
                     "`[FOLDER - CANCELLED]`\n\n"

@@ -86,8 +86,8 @@ async def kang(args):
                 # pack
                 emoji = splat[1]
 
-        packname = f"{user.username}_{pack}"
-        packnick = f"Nangis Pack"
+        packname = f"{user.username}{pack}"
+        packnick = f"{user.first_name} Nangis Pack"
         cmd = '/newpack'
         file = io.BytesIO()
 
@@ -114,8 +114,8 @@ async def kang(args):
                 x = await conv.get_response()
                 while "120" in x.text:
                     pack += 1
-                    packname = f"{user.username}_{pack}"
-                    packnick = f"Nangis Pack"
+                    packname = f"{user.username}{pack}"
+                    packnick = f"{user.first_name} Nangis Pack"
                     await args.edit("`Switching to Pack " + str(pack) +
                                     " due to insufficient space`")
                     await conv.send_message(packname)
@@ -254,7 +254,7 @@ async def resize_photo(photo):
     return image
 
 
-@register(outgoing=True, pattern="^.stkrinfo$")
+@register(outgoing=True, pattern="^.strinfo$")
 async def get_pack_info(event):
     if not event.is_reply:
         await event.edit("`I can't fetch info from nothing, can I ?!`")
@@ -298,7 +298,7 @@ async def get_pack_info(event):
 
 
 CMD_HELP.update({
-    "stickers":
+    "nangispack":
     ".get\
 \nUsage: Reply .get to a sticker or an image to kang it to your userbot pack.\
 \n\n.get [emoji('s)]\

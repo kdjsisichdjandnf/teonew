@@ -8,4 +8,4 @@ Thanks to :
 * [AdekMaulana](https://github.com/adekmaulana) - ProjectBish
 * [MoveAngel](https://github.com/MoveAngel) - One4uBot
 
-[Raphielscape Public License](https://github.com/nangis-project/NangisBot/blob/nangis/LICENSE) - Version 1.d, February 2020
+[Raphielscape Public License](https://github.com/afdulfauzan/NangisBot/blob/nangis/LICENSE) - Version 1.d, February 2020

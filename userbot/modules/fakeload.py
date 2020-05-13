@@ -325,5 +325,5 @@ async def typewriter(typew):
 CMD_HELP.update({
     "fakeload":
     ".fl\
-    \nUsage: Hmmmmmm."
+    \nUsage: fake loading...."
 })
