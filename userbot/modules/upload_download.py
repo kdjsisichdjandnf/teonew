@@ -29,7 +29,7 @@ from userbot.events import register
 @register(pattern=r".download(?: |$)(.*)", outgoing=True)
 async def download(target_file):
     """ For .download command, download files to the userbot's server. """
-    await target_file.edit("Processing ...")
+    await target_file.edit("`Processing...`")
     input_str = target_file.pattern_match.group(1)
     if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
@@ -80,24 +80,28 @@ async def download(target_file):
             except Exception as e:
                 LOGS.info(str(e))
         if downloader.isSuccessful():
-            await target_file.edit("Downloaded to `{}` successfully !!".format(
-                downloaded_file_name))
+            await target_file.edit(f"Downloaded to: `{downloaded_file_name}`.")
         else:
             await target_file.edit("Incorrect URL\n{}".format(url))
     elif target_file.reply_to_msg_id:
         try:
             c_time = time.time()
-            downloaded_file_name = await target_file.client.download_media(
-                await target_file.get_reply_message(),
-                TEMP_DOWNLOAD_DIRECTORY,
+            file = await target_file.get_reply_message()
+            file_name = file.file.name
+            file_path = TEMP_DOWNLOAD_DIRECTORY + file_name
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+            await target_file.client.download_media(
+                file,
+                file_path,
                 progress_callback=lambda d, t: asyncio.get_event_loop(
                 ).create_task(
-                    progress(d, t, target_file, c_time, "[DOWNLOAD]")))
+                    progress(d, t, target_file, c_time, "[DOWNLOAD]",
+                             file_name=file_name)))
         except Exception as e:  # pylint:disable=C0103,W0703
             await target_file.edit(str(e))
         else:
-            await target_file.edit("Downloaded to `{}` successfully !!".format(
-                downloaded_file_name))
+            await target_file.edit(f"Downloaded to: `{file_path}`.")
     else:
         await target_file.edit(
             "Reply to a message to download to my local server.")
@@ -108,7 +112,7 @@ async def uploadir(udir_event):
     """ For .uploadir command, allows you to upload everything from a folder in the server"""
     input_str = udir_event.pattern_match.group(1)
     if os.path.exists(input_str):
-        await udir_event.edit("Processing ...")
+        await udir_event.edit("`Processing...`")
         lst_of_files = []
         for r, d, f in os.walk(input_str):
             for file in f:
@@ -136,7 +140,7 @@ async def uploadir(udir_event):
                         progress_callback=lambda d, t: asyncio.get_event_loop(
                         ).create_task(
                             progress(d, t, udir_event, c_time, "[UPLOAD]",
-                                     single_file)))
+                                     file_name=single_file)))
                 else:
                     thumb_image = os.path.join(input_str, "thumb.jpg")
                     c_time = time.time()
@@ -170,7 +174,7 @@ async def uploadir(udir_event):
                         progress_callback=lambda d, t: asyncio.get_event_loop(
                         ).create_task(
                             progress(d, t, udir_event, c_time, "[UPLOAD]",
-                                     single_file)))
+                                     file_name=single_file)))
                 os.remove(single_file)
                 uploaded = uploaded + 1
         await udir_event.edit(
@@ -181,11 +185,13 @@ async def uploadir(udir_event):
 
 @register(pattern=r".upload (.*)", outgoing=True)
 async def upload(u_event):
-    """ For .upload command, allows you to upload a file from the userbot's server """
-    await u_event.edit("Processing ...")
+    """
+    For .upload command, allows you to upload a file from the userbot's server
+    """
+    await u_event.edit("`Processing...`")
     input_str = u_event.pattern_match.group(1)
     if input_str in ("userbot.session", "config.env"):
-        return await u_event.edit("`That's a dangerous operation! Not Permitted!`")
+        return await u_event.edit("`That's a dangerous operation!`")
     if os.path.exists(input_str):
         c_time = time.time()
         await u_event.client.send_file(
@@ -196,7 +202,8 @@ async def upload(u_event):
             reply_to=u_event.message.id,
             progress_callback=lambda d, t: asyncio.get_event_loop(
             ).create_task(
-                progress(d, t, u_event, c_time, "[UPLOAD]", input_str)))
+                progress(d, t, u_event, c_time, "[UPLOAD]",
+                         file_name=input_str)))
         await u_event.edit("Uploaded successfully !!")
     else:
         await u_event.edit("404: File Not Found")
@@ -257,7 +264,9 @@ def extract_w_h(file):
 
 @register(pattern=r".uploadas(stream|vn|all) (.*)", outgoing=True)
 async def uploadas(uas_event):
-    """ For .uploadas command, allows you to specify some arguments for upload. """
+    """
+    For .uploadas command, allows you to specify some arguments for upload.
+    """
     await uas_event.edit("Processing ...")
     type_of_upload = uas_event.pattern_match.group(1)
     supports_streaming = False
@@ -314,7 +323,7 @@ async def uploadas(uas_event):
                     progress_callback=lambda d, t: asyncio.get_event_loop(
                     ).create_task(
                         progress(d, t, uas_event, c_time, "[UPLOAD]",
-                                 file_name)))
+                                 file_name=file_name)))
             elif round_message:
                 c_time = time.time()
                 await uas_event.client.send_file(
@@ -336,7 +345,7 @@ async def uploadas(uas_event):
                     progress_callback=lambda d, t: asyncio.get_event_loop(
                     ).create_task(
                         progress(d, t, uas_event, c_time, "[UPLOAD]",
-                                 file_name)))
+                                 file_name=file_name)))
             elif spam_big_messages:
                 return await uas_event.edit("TBD: Not (yet) Implemented")
             os.remove(thumb)
