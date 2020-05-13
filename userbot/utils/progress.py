@@ -19,22 +19,29 @@ import time
 import math
 
 from .tools import humanbytes, time_formatter
+from .exceptions import CancelProcess
 
 
-async def progress(current, total, gdrive, start, prog_type, file_name=None):
+async def progress(
+    current, total, gdrive, start, prog_type,
+    file_name=None, is_cancelled=False
+):
     now = time.time()
     diff = now - start
+    if is_cancelled is True:
+        raise CancelProcess
+
     if round(diff % 10.00) == 0 or current == total:
         percentage = current * 100 / total
         speed = current / diff
         elapsed_time = round(diff)
         eta = round((total - current) / speed)
         if 'upload' in prog_type.lower():
-            status = 'Uploading...'
+            status = 'Uploading'
         elif 'download' in prog_type.lower():
-            status = 'Downloading...'
+            status = 'Downloading'
         else:
-            status = 'Unknown...'
+            status = 'Unknown'
         progress_str = "`{0}` | [{1}{2}] `{3}%`".format(
             status,
             ''.join(["■" for i in range(
@@ -49,5 +56,12 @@ async def progress(current, total, gdrive, start, prog_type, file_name=None):
             f"`ETA` -> {time_formatter(eta)}\n"
             f"`Duration` -> {time_formatter(elapsed_time)}"
         )
-        await gdrive.edit(f"`{prog_type}`\n\n"
-                          f"`Status`\n{tmp}")
+        if file_name is not None:
+            await gdrive.edit(
+               f"`{prog_type}`\n\n"
+               f"`{file_name}`\n"
+               f"`Status`\n{tmp}"
+            )
+        else:
+            await gdrive.edit(f"`{prog_type}`\n\n"
+                              f"`Status`\n{tmp}")
