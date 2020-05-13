@@ -216,11 +216,11 @@ async def get_mimeType(name):
 
 
 async def download(gdrive, service, uri=None):
+    global is_cancelled
     reply = ''
     """ - Download files to local then upload - """
     if not isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
-        required_file_name = None
     if uri:
         full_path = os.getcwd() + TEMP_DOWNLOAD_DIRECTORY.strip('.')
         if isfile(uri) and uri.endswith(".torrent"):
@@ -243,37 +243,48 @@ async def download(gdrive, service, uri=None):
             new_gid = await check_metadata(gid)
             await check_progress_for_dl(gdrive, new_gid, previous=None)
         try:
-            required_file_name = TEMP_DOWNLOAD_DIRECTORY + filenames
+            file_path = TEMP_DOWNLOAD_DIRECTORY + filenames
         except Exception:
-            required_file_name = TEMP_DOWNLOAD_DIRECTORY + filename
+            file_path = TEMP_DOWNLOAD_DIRECTORY + filename
     else:
         try:
             current_time = time.time()
-            downloaded_file_name = await gdrive.client.download_media(
-                await gdrive.get_reply_message(),
-                TEMP_DOWNLOAD_DIRECTORY,
+            is_cancelled = False
+            file = await gdrive.get_reply_message()
+            file_name = file.file.name
+            file_path = TEMP_DOWNLOAD_DIRECTORY + file_name
+            if isfile(file_path):
+                os.remove(file_path)
+            await gdrive.client.download_media(
+                file,
+                file_path,
                 progress_callback=lambda d, t: asyncio.get_event_loop(
                 ).create_task(progress(d, t, gdrive, current_time,
-                                       "[FILE - DOWNLOAD]")))
-        except Exception as e:
-            await gdrive.edit(str(e))
-        else:
-            required_file_name = downloaded_file_name
+                                       "[FILE - DOWNLOAD]",
+                                       file_name=file_name,
+                                       is_cancelled=is_cancelled)))
+        except CancelProcess:
+            os.remove(file_path)
+            reply += (
+                "`[FILE - CANCELLED]`\n\n"
+                "`Status` : **OK** - received signal cancelled."
+            )
+            return reply
     try:
-        file_name = await get_raw_name(required_file_name)
+        file_name = await get_raw_name(file_path)
     except AttributeError:
         reply += (
             "`[ENTRY - ERROR]`\n\n"
             "`Status` : **BAD**\n"
         )
         return reply
-    mimeType = await get_mimeType(required_file_name)
+    mimeType = await get_mimeType(file_path)
     try:
         status = "[FILE - UPLOAD]"
-        if isfile(required_file_name):
+        if isfile(file_path):
             try:
                 result = await upload(
-                    gdrive, service, required_file_name, file_name, mimeType)
+                    gdrive, service, file_path, file_name, mimeType)
             except CancelProcess:
                 reply += (
                     "`[FILE - CANCELLED]`\n\n"
@@ -299,7 +310,7 @@ async def download(gdrive, service, uri=None):
                 + parent_Id
             )
             try:
-                await task_directory(gdrive, service, required_file_name)
+                await task_directory(gdrive, service, file_path)
             except CancelProcess:
                 reply += (
                     "`[FOLDER - CANCELLED]`\n\n"
@@ -1293,9 +1304,11 @@ CMD_HELP.update({
     "\nThis only need to run once in life time."
     "\n\n>`.gdreset`"
     "\nUsage: reset your token if something bad happened or change drive acc."
-    "\n\n>.`gd`"
+    "\n\n>`.gd`"
     "\nUsage: Upload file from local or uri/url/drivelink into google drive."
     "\nfor drivelink it's upload only if you want to."
+    "\n\n>`.gdabort`"
+    "\nUsage: Abort process uploading or downloading."
     "\n\n>`.gdlist`"
     "\nUsage: Get list of folders and files with default size 50."
     "\nUse flags `-l range[1-1000]` for limit output."
