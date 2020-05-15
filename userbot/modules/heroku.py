@@ -1,5 +1,10 @@
 # Copyright (C) 2020 Adek Maulana.
 # All rights reserved.
+#
+# Licensed under the Raphielscape Public License, Version 1.d (the "License");
+# you may not use this file except in compliance with the License.
+#
+
 """
    Heroku manager for your userbot
 """
@@ -8,14 +13,7 @@ import heroku3
 import aiohttp
 import math
 
-from userbot import (
-    CMD_HELP,
-    HEROKU_APP_NAME,
-    HEROKU_API_KEY,
-    BOTLOG,
-    BOTLOG_CHATID
-)
-
+from userbot import (CMD_HELP, HEROKU_APP_NAME, HEROKU_API_KEY, BOTLOG, BOTLOG_CHATID)
 from userbot.events import register
 
 heroku_api = "https://api.heroku.com"
