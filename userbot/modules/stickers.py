@@ -309,7 +309,7 @@ async def get_pack_info(event):
     await event.edit(OUTPUT)
 
 
-@register(outgoing=True, pattern="^.getsticker$")
+@register(outgoing=True, pattern="^.dlsticker$")
 async def sticker_to_png(sticker):
     if not sticker.is_reply:
         await sticker.edit("`NULL information to feftch...`")
@@ -343,6 +343,6 @@ CMD_HELP.update({
 \nUsage: Kang's the sticker/image to the specified pack and uses the emoji('s) you picked.\
 \n\n.stkrinfo\
 \nUsage: Gets info about the sticker pack.\
-\n\n.getsticker\
+\n\n.dlsticker\
 \nUsage: reply to a sticker to get 'PNG' file of sticker."
 })
