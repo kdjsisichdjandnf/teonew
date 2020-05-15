@@ -141,7 +141,7 @@ async def update(event, repo, ups_rem, ac_br):
     return
 
 
-@register(outgoing=True, pattern="^.update( now| deploy|$)")
+@register(outgoing=True, pattern="^.update( test| deploy|$)")
 async def upstream(event):
     "For .update command, check if the bot is up to date, update if specified"
     await event.edit("`Getting information....`")
@@ -164,7 +164,7 @@ async def upstream(event):
                 f"`Unfortunately, the directory {error} "
                 "does not seem to be a git repository.\n"
                 "But we can fix that by force updating the userbot using "
-                ".update now.`"
+                ".update test.`"
             )
         repo = Repo.init()
         origin = repo.create_remote('upstream', off_repo)
@@ -208,13 +208,13 @@ async def upstream(event):
         await print_changelogs(event, ac_br, changelog)
         await event.delete()
         return await event.respond(
-            '`do ".update now or .update deploy" to update.`')
+            '`do ".update test or .update deploy" to update.`')
 
     if force_update:
         await event.edit(
             '`Force-Syncing to latest stable userbot code, please wait...`')
     
-    if conf == "now":
+    if conf == "test":
         await event.edit('`Updating NangisBot, please wait....`')
         await update(event, repo, ups_rem, ac_br)
     return
@@ -225,7 +225,7 @@ CMD_HELP.update({
     ">`.update`"
     "\nUsage: Checks if the main userbot repository has any updates "
     "and shows a changelog if so."
-    "\n\n>`.update now`"
+    "\n\n>`.update test`"
     "\nUsage: Update your userbot, "
     "if there are any updates in your userbot repository."
     "\n\n>`.update deploy`"
