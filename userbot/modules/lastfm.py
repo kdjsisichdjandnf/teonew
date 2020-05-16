@@ -69,7 +69,7 @@ async def last_fm(lastFM):
         else:
             output = f"[{LASTFM_USERNAME}]({username}) __is now listening to:__\n\n• [{playing}]({rectrack})\n`{tags}`"
     else:
-        recent = User(LASTFM_USERNAME, lastfm).get_recent_tracks(limit=3)
+        recent = User(LASTFM_USERNAME, lastfm).get_recent_tracks(limit=5)
         playing = User(LASTFM_USERNAME, lastfm).get_now_playing()
         output = f"[{LASTFM_USERNAME}]({username}) __was last listening to:__\n\n"
         for i, track in enumerate(recent):
@@ -134,9 +134,9 @@ async def get_curr_track(lfmbio):
                 environ["oldsong"] = str(SONG)
                 environ["oldartist"] = str(ARTIST)
                 if BIOPREFIX:
-                    lfmbio = f"{BIOPREFIX} 🎧: {ARTIST} - {SONG}"
+                    lfmbio = f"{BIOPREFIX} 🎧 : {ARTIST} - {SONG}"
                 else:
-                    lfmbio = f"🎧: {ARTIST} - {SONG}"
+                    lfmbio = f" 🎧 : {ARTIST} - {SONG}"
                 try:
                     if BOTLOG and LastLog:
                         await bot.send_message(
@@ -144,7 +144,7 @@ async def get_curr_track(lfmbio):
                             f"Attempted to change bio to\n{lfmbio}")
                     await bot(UpdateProfileRequest(about=lfmbio))
                 except AboutTooLongError:
-                    short_bio = f"🎧: {SONG}"
+                    short_bio = f": {SONG}"
                     await bot(UpdateProfileRequest(about=short_bio))
             else:
                 if playing is None and user_info.about != DEFAULT_BIO:
