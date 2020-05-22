@@ -200,7 +200,7 @@ async def upstream(event):
 
     if changelog == '' and force_update is False:
         await event.edit(
-            '\n`Your` **NUB** `is`  **UP-TO-DATE**  `with`'
+            '\n`Your` **NUB** `is`  **UP-TO-DATE**  `with` '
             f'**{UPSTREAM_REPO_BRANCH}**\n')
         return repo.__del__()
 
