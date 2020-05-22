@@ -69,9 +69,9 @@ RUN python3 -m ensurepip \
 #
 # Clone repo and prepare working directory
 #
-RUN git clone -b nangis https://github.com/nangis-project/NangisBot /root/nangisbot
-RUN mkdir /root/nangisbot/bin/
-WORKDIR /root/nangisbot/
+RUN git clone -b stable https://github.com/nangis-project/NUB /root/nub
+RUN mkdir /root/nub/bin/
+WORKDIR /root/nub/
 
 #
 # Copies session and config (if it exists)

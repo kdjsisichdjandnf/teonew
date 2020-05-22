@@ -92,7 +92,7 @@ async def bot_support(wannahelp):
 async def creator(ereee):
     """ See who create this userbot. """
     await ereee.edit(
-        "Creator of this userbot:"
+        "**Creator of this userbot:**"
         "\n😭 [Nangis-Project](https://github.com/nangis-project) 😭")
 
 
@@ -100,7 +100,7 @@ async def creator(ereee):
 async def reedme(e):
     await e.edit(
         "Here's something for you to read:\n"
-        "\n[NangisBot README.md file](https://github.com/nangis-project/NangisBot/blob/nangis/README.md)"
+        "\n[NUB README.md file](https://github.com/nangis-project/NUB/blob/nangis/README.md)"
         "\n[Setup Guide - Basic](https://telegra.ph/How-to-host-a-Telegram-Userbot-11-02)"
         "\n[Setup Guide - Google Drive](https://telegra.ph/How-To-Setup-Google-Drive-04-03)"
         "\n[Setup Guide - LastFM Module](https://telegra.ph/How-to-set-up-LastFM-module-for-Paperplane-userbot-11-02)"
@@ -128,7 +128,7 @@ async def repeat(rep):
 async def repo_is_here(wannasee):
     """ For .repo command, just returns the repo URL. """
     await wannasee.edit(
-        "[Click here !!!](https://github.com/nangis-project/NangisBot) to open NangisBot's GitHub page."
+        "[CLICK HERE!](https://github.com/nangis-project/NUB) to open NUB GitHub page."
     )
 
 

@@ -95,7 +95,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
             )
             return repo.__del__()
         await event.edit('`[HEROKU]`'
-                         '\n`NangisBot dyno build in progress, please wait...`'
+                         '\n**NUB** `dyno build in progress, please wait...`'
                          )
         ups_rem.fetch(ac_br)
         repo.git.reset("--hard", "FETCH_HEAD")
@@ -133,8 +133,8 @@ async def update(event, repo, ups_rem, ac_br):
     except GitCommandError:
         repo.git.reset("--hard", "FETCH_HEAD")
     await update_requirements()
-    await event.edit('`Successfully Updated!\n'
-                     'NangisBot is restarting... Wait for a second!`')
+    await event.edit('`Successfully Updated!`\n'
+                     '**NUB** `is restarting... Wait for a second!`')
     # Spin a new instance of bot
     args = [sys.executable, "-m", "userbot"]
     execle(sys.executable, *args, environ)
@@ -194,13 +194,13 @@ async def upstream(event):
     changelog = await gen_chlog(repo, f'HEAD..upstream/{ac_br}')
     """ - Special case for deploy - """
     if conf == "deploy":
-        await event.edit('`Deploying NangisBot, please wait....`')
+        await event.edit('`Deploying` **NUB**, `please wait...`')
         await deploy(event, repo, ups_rem, ac_br, txt)
         return
 
     if changelog == '' and force_update is False:
         await event.edit(
-            '\n`Your NangisBot is`  **UP-TO-DATE**  `with`  '
+            '\n`Your` **NUB** `is`  **UP-TO-DATE**  `with`'
             f'**{UPSTREAM_REPO_BRANCH}**\n')
         return repo.__del__()
 
@@ -215,7 +215,7 @@ async def upstream(event):
             '`Force-Syncing to latest stable userbot code, please wait...`')
     
     if conf == "test":
-        await event.edit('`Updating NangisBot, please wait....`')
+        await event.edit('`Updating` **NUB**, `please wait....`')
         await update(event, repo, ups_rem, ac_br)
     return
 

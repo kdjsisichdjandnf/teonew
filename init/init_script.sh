@@ -48,7 +48,7 @@ botclone() {
     cd ~
     echo "Cloning bot sources..."
     if [ -z "$bot_clone" ]; then
-        git clone https://github.com/nangis-project/NangisBot -b nangis
+        git clone https://github.com/nangis-project/NUB -b stable
         save_prog "bot_clone"
     fi
     echo "DONE!!"

@@ -19,7 +19,7 @@ from telethon.tl.types import InputStickerSetID
 from telethon.tl.types import DocumentAttributeSticker
 
 KANGING_STR = [
-    "add to sticker pack.  .  .",
+    "add to sticker pack...",
 ]
 
 
@@ -307,6 +307,6 @@ CMD_HELP.update({
 \nUsage: Get's the sticker/image to the specified pack but uses 🤔 as emoji.\
 \n\n.get [emoji('s)] [number]\
 \nUsage: Get's the sticker/image to the specified pack and uses the emoji('s) you picked.\
-\n\n.stkrinfo\
+\n\n.infostkr\
 \nUsage: Gets info about the sticker pack."
 })

@@ -26,7 +26,7 @@ async def gen_chlog(repo, diff):
 
 
 async def is_off_br(br):
-    off_br = ['nangis']
+    off_br = ['stable']
     for k in off_br:
         if k == br:
             return 1
@@ -38,7 +38,7 @@ async def chtream(ch):
     "For .update command, check if the bot is up to date, update if specified"
     await ch.edit("`Checking for updates, please wait....`")
     conf = ch.pattern_match.group(1).lower()
-    off_repo = 'https://github.com/nangis-project/NangisBot.git'
+    off_repo = 'https://github.com/nangis-project/NUB.git'
 
     try:
         txt = "`Oops.. Updater cannot continue due to some problems occured`\n\n**LOGTRACE:**\n"
@@ -57,7 +57,7 @@ async def chtream(ch):
         )
         origin = repo.create_remote('chtream', off_repo)
         origin.fetch()
-        repo.create_head('nangis', origin.refs.master)
+        repo.create_head('stable', origin.refs.master)
         repo.heads.master.checkout(True)
 
     ac_br = repo.active_branch.name
@@ -78,7 +78,7 @@ async def chtream(ch):
     changelog = await gen_chlog(repo, f'HEAD..chtream/{ac_br}')
 
     if not changelog:
-        await ch.edit(f'\n`NangisBot is` **UP-TO-DATE** `with` **{ac_br}**\n')
+        await ch.edit(f'\n`**NUB** is` **UP-TO-DATE** `with` **{ac_br}**\n')
         return
 
     if conf != "w":

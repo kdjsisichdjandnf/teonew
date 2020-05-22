@@ -1,6 +1,6 @@
 {
-  "name": "Telegram Nangis Bot",
-  "description": "[NangisBot] A modular Telegram userbot running on Python 3.8+ with an sqlalchemy database.",
+  "name": "Telegram Nangis User Bot",
+  "description": "[NUB] A modular Telegram userbot running on Python 3.8+ with an sqlalchemy database.",
   "logo": "https://i.ibb.co/Wf4cHWm/nangisproject.png",
   "keywords": [
     "telegram",
@@ -9,7 +9,7 @@
     "modular",
     "productivity"
   ],
-  "repository": "https://github.com/nangis-project/NangisBot",
+  "repository": "https://github.com/nangis-project/NUB",
   "website": "https://telegra.ph/How-to-host-a-Telegram-Userbot-11-02",
   "success_url": "https://t.me/userbotindo",
   "stack": "container",
@@ -66,7 +66,7 @@
     },
     "TELEGRAPH_SHORT_NAME": {
       "description": "Fill the value up to you.",
-      "value": "Userbot",
+      "value": "NUB",
       "required": true
     },
     "CHROME_DRIVER": {

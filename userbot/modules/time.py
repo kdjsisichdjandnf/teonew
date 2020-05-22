@@ -65,7 +65,7 @@ async def time_func(tdata):
         tz_num = TZ_NUMBER
         timezones = await get_tz(COUNTRY)
     else:
-        await tdata.edit(f"`It's`  **{dt.now().strftime(t_form)}**  `here.`")
+        await tdata.edit(f"⏰ `It's` **{dt.now().strftime(t_form)}** `here`")
         return
 
     if not timezones:
