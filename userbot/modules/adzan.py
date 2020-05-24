@@ -38,7 +38,7 @@ async def get_adzan(adzan):
     isya = parsed["results"]["datetime"][0]["times"]["Isha"]
 
     result = (f"**Jadwal Sholat**:\n"
-                 f"⏱`{date}`\n"
+                 f"`{date}`\n"
                  f"`{city} | {country}`\n\n"
                  f"**Imsak :** `{imsak}`\n"
                  f"**Subuh :** `{subuh}`\n"
