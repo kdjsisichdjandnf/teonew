@@ -115,7 +115,7 @@ async def mega_downloader(megadl):
                 f"`ETA` -> {time_formatter(estimated_total_time)}\n"
                 f"`Duration` -> {time_formatter(round(diff))}"
             )
-            if round(diff % 10.00) == 0 and (
+            if round(diff % 15.00) == 0 and (
               display_message != current_message or total_length == downloaded
               ):
                 await megadl.edit(current_message)
