@@ -109,7 +109,7 @@ async def codename_info(request):
     await request.edit(reply)
 
 
-@register(outgoing=True, pattern="^.pixeldl(?: |$)(.*)")
+@register(outgoing=True, pattern="^.pedl(?: |$)(.*)")
 async def download_api(dl):
     await dl.edit("`Collecting information...`")
     URL = dl.pattern_match.group(1)
@@ -304,7 +304,7 @@ CMD_HELP.update({
     "\nUsage: Get info about android device codename or model."
     "\n\n>`.codename <brand> <device>`"
     "\nUsage: Search for android device codename."
-    "\n\n>`.pixeldl` **<download.pixelexperience.org>**"
+    "\n\n>`.pedl` **<download.pixelexperience.org>**"
     "\nUsage: Download pixel experience ROM into your userbot server."
     "\n\n>`.specs <brand> <device>`"
     "\nUsage: Get device specifications info."
