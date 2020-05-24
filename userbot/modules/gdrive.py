@@ -444,7 +444,7 @@ async def download_gdrive(gdrive, service, uri):
                                 10 - math.floor(percentage / 10))]),
                         round(percentage, 2))
                     current_message = (
-                        "`[FILE - DOWNLOAD]`\n\n"
+                        "**[FILE - DOWNLOAD]**\n\n"
                         f"`{file_name}`\n"
                         f"`Status`\n{prog_str}\n"
                         f"`{humanbytes(downloaded)} of {humanbytes(file_size)}"
@@ -490,7 +490,7 @@ async def download_gdrive(gdrive, service, uri):
                                 10 - math.floor(percentage / 10))]),
                         round(percentage, 2))
                     current_message = (
-                        "`[FILE - DOWNLOAD]`\n\n"
+                        "**[FILE - DOWNLOAD]**\n\n"
                         f"`{file_name}`\n"
                         f"`Status`\n{prog_str}\n"
                         f"`{humanbytes(downloaded)} of {humanbytes(file_size)}"
@@ -504,15 +504,15 @@ async def download_gdrive(gdrive, service, uri):
                         await gdrive.edit(current_message)
                         display_message = current_message
     await gdrive.edit(
-        "`[FILE - DOWNLOAD]`\n\n"
-        f"`Name   :` `{file_name}`\n"
-        f"`Size   :` `{humanbytes(file_size)}`\n"
-        f"`Path   :` `{file_path}`\n"
-        "`Status :` **OK** - Successfully downloaded."
+        "**[FILE - DOWNLOAD]**\n\n"
+        f"**Name   :** `{file_name}`\n"
+        f"**Size   :** `{humanbytes(file_size)}`\n"
+        f"**Path   :** `{file_path}`\n"
+        "**Status :** **OK** - Successfully downloaded."
     )
     msg = await gdrive.respond("`Answer the question in your BOTLOG group`")
     async with gdrive.client.conversation(BOTLOG_CHATID) as conv:
-        ask = await conv.send_message("`Proceed with mirroring? [y/N]`")
+        ask = await conv.send_message("`Proceed with mirroring? [Y/N]`")
         try:
             r = conv.wait_event(
               events.NewMessage(outgoing=True, chats=BOTLOG_CHATID))
@@ -537,11 +537,11 @@ async def download_gdrive(gdrive, service, uri):
             )
         else:
             reply += (
-                "`[FILE - UPLOAD]`\n\n"
-                f"`Name   :` `{file_name}`\n"
-                f"`Size   :` `{humanbytes(result[0])}`\n"
-                f"`Link   :` [{file_name}]({result[1]})\n"
-                "`Status :` **OK**\n\n"
+                "**[FILE - UPLOAD]**\n\n"
+                f"**Name   :** `{file_name}`\n"
+                f"**Size   :** `{humanbytes(result[0])}`\n"
+                f"**Link   :** [{file_name}]({result[1]})\n"
+                "**Status :** **OK**\n\n"
             )
         return reply
     else:
@@ -650,7 +650,7 @@ async def upload(gdrive, service, file_path, file_name, mimeType):
                         10 - math.floor(percentage / 10))]),
                 round(percentage, 2))
             current_message = (
-                "`[FILE - UPLOAD]`\n\n"
+                "**[FILE - UPLOAD]**\n\n"
                 f"`{file_name}`\n"
                 f"`Status`\n{prog_str}\n"
                 f"`{humanbytes(uploaded)} of {humanbytes(file_size)} "
@@ -1145,11 +1145,11 @@ async def google_drive(gdrive):
         )
     if result:
         await gdrive.respond(
-            "`[FILE - UPLOAD]`\n\n"
-            f"`Name   :` `{file_name}`\n"
-            f"`Size   :` `{humanbytes(result[0])}`\n"
-            f"`Link   :` [{file_name}]({result[1]})\n"
-            "`Status :` **OK** - Successfully uploaded.\n",
+            "**[FILE - UPLOAD]**\n\n"
+            f"**Name   :** `{file_name}`\n"
+            f"**Size   :** `{humanbytes(result[0])}`\n"
+            f"**Link   :** [{file_name}]({result[1]})\n"
+            "**Status :** **OK** - Successfully uploaded.\n",
             link_preview=False
             )
     await gdrive.delete()
