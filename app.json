@@ -45,14 +45,17 @@
     },
     "GIT_REPO_NAME": {
       "description": "Add the GIT_REPO_NAME here. It helps with commit on GitHub.",
+      "value" : "NUB",
       "required": false
     },
     "UPSTREAM_REPO_URL": {
       "description": "In case you maintain a fork, add your repo URL here.",
+      "value" : "https://github.com/nangis-project/NUB",
       "required": false
     },
     "UPSTREAM_REPO_BRANCH": {
       "description": "In case you maintain a fork, add your repo BRANCH here.",
+      "value" : "stable",
       "required": false
     },
     "COUNTRY": {
