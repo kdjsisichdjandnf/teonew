@@ -537,11 +537,11 @@ async def download_gdrive(gdrive, service, uri):
             )
         else:
             reply += (
-                "**[FILE - UPLOAD]**\n\n"
-                f"**Name   :** `{file_name}`\n"
-                f"**Size   :** `{humanbytes(result[0])}`\n"
-                f"**Link   :** [{file_name}]({result[1]})\n"
-                "**Status :** **OK**\n\n"
+                "`[FILE - UPLOAD]`\n\n"
+                f"`Name   :` `{file_name}`\n"
+                f"`Size   :` `{humanbytes(result[0])}`\n"
+                f"`Link   :` [{file_name}]({result[1]})\n"
+                "`Status :` **OK**\n\n"
             )
         return reply
     else:
@@ -650,7 +650,7 @@ async def upload(gdrive, service, file_path, file_name, mimeType):
                         10 - math.floor(percentage / 10))]),
                 round(percentage, 2))
             current_message = (
-                "**[FILE - UPLOAD]**\n\n"
+                "`[FILE - UPLOAD]`\n\n"
                 f"`{file_name}`\n"
                 f"`Status`\n{prog_str}\n"
                 f"`{humanbytes(uploaded)} of {humanbytes(file_size)} "
@@ -1027,7 +1027,7 @@ async def google_drive(gdrive):
             return await gdrive.delete()
         except Exception as e:
             await gdrive.edit(
-                "**[FOLDER - UPLOAD]**\n\n"
+                "`[FOLDER - UPLOAD]`\n\n"
                 f"`{folder_name}`\n"
                 "`Status` : **BAD**\n"
                 f"`Reason` : {str(e)}"
@@ -1145,11 +1145,11 @@ async def google_drive(gdrive):
         )
     if result:
         await gdrive.respond(
-            "**[FILE - UPLOAD]**\n\n"
-            f"**Name   :** `{file_name}`\n"
-            f"**Size   :** `{humanbytes(result[0])}`\n"
-            f"**Link   :** [{file_name}]({result[1]})\n"
-            "**Status :** **OK** - Successfully uploaded.\n",
+            "`[FILE - UPLOAD]`\n\n"
+            f"`Name   :` `{file_name}`\n"
+            f"`Size   :` `{humanbytes(result[0])}`\n"
+            f"`Link   :` [{file_name}]({result[1]})\n"
+            "`Status :` **OK** - Successfully uploaded.\n",
             link_preview=False
             )
     await gdrive.delete()
