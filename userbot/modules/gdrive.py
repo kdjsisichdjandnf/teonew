@@ -1027,7 +1027,7 @@ async def google_drive(gdrive):
             return await gdrive.delete()
         except Exception as e:
             await gdrive.edit(
-                "`[FOLDER - UPLOAD]`\n\n"
+                "**[FOLDER - UPLOAD]**\n\n"
                 f"`{folder_name}`\n"
                 "`Status` : **BAD**\n"
                 f"`Reason` : {str(e)}"
