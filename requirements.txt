@@ -23,7 +23,6 @@ hachoir>=3.0a5
 heroku3>=3.4.0	
 httplib2
 humanize
-instalooter
 instantmusic
 lxml
 lyricsgenius
