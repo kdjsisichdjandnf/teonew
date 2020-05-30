@@ -26,6 +26,10 @@
       "description": "Get this value by running [python3 string_session.py] in Termux or local system.",
       "required": true
     },
+    "WATCH_COUNTRY": {
+      "description": "Set your Country to Justwatch",
+      "required": false
+    },
     "HEROKU_MEMEZ": {
       "description": "This should be True if the userbot is running on a Heroku Dyno.",
       "value": "True",
