@@ -176,18 +176,16 @@ binaries = {
     "bin/cmrudl"
 }
 
-<<<<<<< HEAD
+
 for binary, path in binaries.items():
     downloader = SmartDL(binary, path, progress_bar=False)
     downloader.start()
     os.chmod(path, 0o755)
 
 # 'bot' variable
-=======
+
 WOLFRAM_ID = os.environ.get("WOLFRAM_ID", None)
 
-# pylint: disable=invalid-name
->>>>>>> d198ba02... scrapers: Add Wolfram module
 if STRING_SESSION:
     # pylint: disable=invalid-name
     bot = TelegramClient(StringSession(STRING_SESSION), API_KEY, API_HASH)
