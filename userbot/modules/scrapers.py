@@ -17,7 +17,6 @@ from urllib.parse import quote_plus
 from urllib.error import HTTPError
 from wikipedia import summary
 from wikipedia.exceptions import DisambiguationError, PageError
-<<<<<<< HEAD
 from urbandict import define
 from requests import get
 from search_engine_parser import GoogleSearch
@@ -35,11 +34,8 @@ from youtube_dl.utils import (DownloadError, ContentTooShortError,
 from asyncio import sleep
 from userbot import (CMD_HELP, BOTLOG, BOTLOG_CHATID, YOUTUBE_API_KEY,
                      TEMP_DOWNLOAD_DIRECTORY)
-=======
 from requests import get
-
 from userbot import (BOTLOG, BOTLOG_CHATID, CMD_HELP, WOLFRAM_ID, bot)
->>>>>>> d198ba02... scrapers: Add Wolfram module
 from userbot.events import register
 from telethon.tl.types import DocumentAttributeAudio
 from userbot.utils import progress, chrome, googleimagesdownload
