@@ -81,7 +81,7 @@ UPSTREAM_REPO_URL = os.environ.get(
     "UPSTREAM_REPO_URL",
     "https://github.com/nangis-project/NUB.git")
 UPSTREAM_REPO_BRANCH = os.environ.get(
-    "UPSTREAM_REPO_BRANCH", "nangis")
+    "UPSTREAM_REPO_BRANCH", "stable")
 
 # Console verbose logging
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
@@ -103,8 +103,11 @@ GOOGLE_CHROME_BIN = os.environ.get("GOOGLE_CHROME_BIN", None)
 OPEN_WEATHER_MAP_APPID = os.environ.get("OPEN_WEATHER_MAP_APPID", None)
 WEATHER_DEFCITY = os.environ.get("WEATHER_DEFCITY", None)
 
-# Genius lyrics  API
+# Genius lyrics API
 GENIUS = os.environ.get("GENIUS_ACCESS_TOKEN", None)
+
+# JustWatch Country
+WATCH_COUNTRY = os.environ.get("WATCH_COUNTRY", None)
 
 # Lydia API
 LYDIA_API_KEY = os.environ.get("LYDIA_API_KEY", None)
@@ -119,9 +122,6 @@ ANTI_SPAMBOT_SHOUT = sb(os.environ.get("ANTI_SPAMBOT_SHOUT", "False"))
 # Youtube API key
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", None)
 
-# Telegraph 
-TELEGRAPH_SHORT_NAME = os.environ.get("TELEGRAPH_SHORT_NAME", None)
-
 # Default .alive name
 ALIVE_NAME = os.environ.get("ALIVE_NAME", None)
 
@@ -131,9 +131,6 @@ TZ_NUMBER = int(os.environ.get("TZ_NUMBER", 1))
 
 # User Terminal alias
 USER_TERM_ALIAS = os.environ.get("USER_TERM_ALIAS", "NUB")
-
-# JustWatch Country
-WATCH_COUNTRY = os.environ.get("WATCH_COUNTRY", None)
 
 # Clean Welcome
 CLEAN_WELCOME = sb(os.environ.get("CLEAN_WELCOME", "True"))
@@ -176,16 +173,12 @@ binaries = {
     "bin/cmrudl"
 }
 
-
 for binary, path in binaries.items():
     downloader = SmartDL(binary, path, progress_bar=False)
     downloader.start()
     os.chmod(path, 0o755)
 
 # 'bot' variable
-
-WOLFRAM_ID = os.environ.get("WOLFRAM_ID", None)
-
 if STRING_SESSION:
     # pylint: disable=invalid-name
     bot = TelegramClient(StringSession(STRING_SESSION), API_KEY, API_HASH)
