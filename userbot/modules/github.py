@@ -120,11 +120,7 @@ async def git_commit(file_name,mone):
             await mone.edit("Cannot Upload Module")
     else:
         return await mone.edit("`Committed Suicide`")
-
-
-<<<<<<< HEAD
-CMD_HELP.update({"git": "Like .whois but for GitHub usernames."})
-=======
+        
 CMD_HELP.update({
     "github":
     ">`.git <username>`"
@@ -132,4 +128,3 @@ CMD_HELP.update({
     "\n\n>`.commit <reply to module file>`"
     "\nUsage: GITHUB File Uploader."
 })
->>>>>>> 0c8073aa... github: merge gitupload module
