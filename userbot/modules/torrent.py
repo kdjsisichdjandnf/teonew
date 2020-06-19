@@ -1,12 +1,9 @@
-# Copyright (C) 2020 GengKapak and AnggaR96s.
-#
-# Licensed under the Raphielscape Public License, Version 1.d (the "License");
-# you may not use this file except in compliance with the License.
-#
+# Copyright (C) 2020 GengKapak and AbggaR96s.
+# All rights reserved.
 
 import requests
 import json
-import codecs
+import asyncio
 import os
 from userbot import CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
 from userbot.events import register
@@ -14,7 +11,7 @@ from userbot.events import register
 @register(outgoing=True, pattern="^\.ts (.*)")
 async def gengkapak(e):
     await e.edit("`Please wait, fetching results...`")
-    query = e.pattern_match.group(1)
+    query = e.text.split(" ", 1)[1]
     response = requests.get(f"https://sjprojectsapi.herokuapp.com/torrent/?query={query}")
     ts = json.loads(response.text)
     if not ts == response.json():
@@ -31,17 +28,10 @@ async def gengkapak(e):
         except:
             break
 
-    if not listdata:
-        return await e.edit("`Error: No results found`")
-
-    tsfileloc = f"{TEMP_DOWNLOAD_DIRECTORY}/{query}.txt"
+    tsfileloc = f"{TEMP_DOWNLOAD_DIRECTORY}/torrent_search.txt"
+    caption = f"Here are the results for the query: {query}"
     with open(tsfileloc, "w+", encoding="utf8") as out_file:
         out_file.write(str(listdata))
-    fd = codecs.open(tsfileloc,'r',encoding='utf-8')
-    data = fd.read()
-    key = requests.post('https://nekobin.com/api/documents', json={"content": data}).json().get('result').get('key')
-    url = f'https://nekobin.com/raw/{key}'
-    caption = f"Here are the results for the query: {query}\nNekofied to : {url}"
     await e.client.send_file(
         e.chat_id,
         tsfileloc,
@@ -53,6 +43,6 @@ async def gengkapak(e):
 
 CMD_HELP.update({
     "torrent":
-    ".ts **Query**"
+    ">`.ts` **Query**"
     "\nUsage: Search for torrent query and display results."
 })
