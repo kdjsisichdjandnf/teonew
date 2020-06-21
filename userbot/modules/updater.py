@@ -79,8 +79,13 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
         heroku_applications = heroku.apps()
         if HEROKU_APP_NAME is None:
             await event.edit(
+<<<<<<< HEAD
                 '`[HEROKU]`\n`Please set up the` **HEROKU_APP_NAME** `variable'
                 ' to be able to deploy your userbot...`'
+=======
+                '`Please set up HEROKU_APP_NAME variable'
+                ' to be able to deploy newest changes of userbot.`'
+>>>>>>> 6e61eea... modules: cleanup
             )
             repo.__del__()
             return
@@ -94,9 +99,13 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
                 '`Invalid Heroku credentials for deploying userbot dyno.`'
             )
             return repo.__del__()
+<<<<<<< HEAD
         await event.edit('`[HEROKU]`'
                          '\n**NUB** `dyno build in progress, please wait...`'
                          )
+=======
+        await event.edit('`Userbot dyno build in progress, please wait...`')
+>>>>>>> 6e61eea... modules: cleanup
         ups_rem.fetch(ac_br)
         repo.git.reset("--hard", "FETCH_HEAD")
         heroku_git_url = heroku_app.git_url.replace(
@@ -121,9 +130,13 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
             await event.edit('`Successfully deployed!\n'
                              'Restarting, please wait...`')
     else:
+<<<<<<< HEAD
         await event.edit('`[HEROKU]`\n'
                          '`Please set up`  **HEROKU_API_KEY**  `variable...`'
                          )
+=======
+        await event.edit('`Please set up HEROKU_API_KEY variable.`')
+>>>>>>> 6e61eea... modules: cleanup
     return
 
 
