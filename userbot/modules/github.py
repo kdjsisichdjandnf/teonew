@@ -1,4 +1,9 @@
-from github import Github
+# Copyright (C) 2019 The Raphielscape Company LLC.
+#
+# Licensed under the Raphielscape Public License, Version 1.d (the "License");
+# you may not use this file except in compliance with the License.
+#
+
 import aiohttp
 import asyncio
 import os
@@ -7,11 +12,13 @@ from datetime import datetime
 from telethon import events
 from telethon.tl.types import DocumentAttributeVideo
 from userbot.events import register
-from userbot import CMD_HELP, GITHUB_ACCESS_TOKEN, GIT_REPO_NAME, bot
+from userbot import CMD_HELP, GITHUB_ACCESS_TOKEN, GIT_REPO_NAME
 
-GIT_TEMP_DIR = "./projectdils/temp/"
 
-@register(pattern=r".git (.*)", outgoing=True)
+GIT_TEMP_DIR = "./userbot/temp/"
+
+
+@register(outgoing=True, pattern=r".git (.*)")
 async def github(event):
     URL = f"https://api.github.com/users/{event.pattern_match.group(1)}"
     chat = await event.get_chat()
@@ -55,7 +62,8 @@ async def github(event):
 
                 await event.edit(REPLY)
 
-@register(outgoing=True, pattern="^.commit(?: |$)(.*)")
+
+@register(outgoing=True, pattern=r".commit (.*)")
 async def download(event):
     if event.fwd_from:
         return	
@@ -87,6 +95,7 @@ async def download(event):
         await mone.edit("Committing to Github....")
         await git_commit(downloaded_file_name, mone)
 
+
 async def git_commit(file_name,mone):        
     content_list = []
     access_token = GITHUB_ACCESS_TOKEN
@@ -107,24 +116,23 @@ async def git_commit(file_name,mone):
             create_file = False
     file_name = "userbot/modules/" + file_name		
     if create_file == True:
-        file_name = file_name.replace("./projectdils/temp/","")
+        file_name = file_name.replace("./userbot/temp/","")
         print(file_name)
         try:
-            repo.create_file(file_name, "ProjectDils: Add new module", commit_data, branch="master")
+            repo.create_file(file_name, "Uploaded New Plugin", commit_data, branch="sql-extended")
             print("Committed File")
             ccess = GIT_REPO_NAME
             ccess = ccess.strip()
-            await mone.edit(f"`Commited On ProjectDils Repo`\n\n[Your Modules](https://github.com/{ccess}/tree/master/{file_name})")
+            await mone.edit(f"`Commited On Your Github Repo`\n\n[Your Modules](https://github.com/{ccess}/tree/sql-extended/userbot/modules/)")
         except:    
-            print("Cannot Create Module")
-            await mone.edit("Cannot Upload Module")
+            print("Cannot Create Plugin")
+            await mone.edit("Cannot Upload Plugin")
     else:
         return await mone.edit("`Committed Suicide`")
-        
+
 CMD_HELP.update({
-    "github":
-    ">`.git <username>`"
+    "github": 
+    ".git"
     "\nUsage: Like .whois but for GitHub usernames."
-    "\n\n>`.commit <reply to module file>`"
-    "\nUsage: GITHUB File Uploader."
-})
+    "\n\n.commit"
+    "\nUsage: GITHUB File Uploader Plugin for userbot. Heroku Automation should be Enabled."})
