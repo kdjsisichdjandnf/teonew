@@ -49,8 +49,6 @@ twitter_scraper
 urbandict
 wikipedia
 telegraph
-urbandict>=0.5
-wikipedia>=1.4.0
 PyGithub
 python-dateutil
 justwatch
