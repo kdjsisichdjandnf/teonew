@@ -43,7 +43,7 @@ requests
 search-engine-parser
 speedtest-cli
 sqlalchemy
-telethon
+telethon==1.15.0
 telethon-session-sqlalchemy
 twitter_scraper
 urbandict
